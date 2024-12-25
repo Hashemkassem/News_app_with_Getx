@@ -16,9 +16,16 @@ class MyBotttomNav extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            width: 200,
+            width: 250,
             height: 60,
             decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(4, 4),
+                    blurRadius: 15,
+                  )
+                ],
                 color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(100)),
             child: Row(
@@ -30,23 +37,11 @@ class MyBotttomNav extends StatelessWidget {
                     controller.index.value = 0;
                   },
                   child: Obx(
-                    () => AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.bounceIn,
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: controller.index.value == 0
-                              ? Theme.of(context).colorScheme.primary
-                              : null),
-                      child: Icon(
-                        Icons.home,
-                        size: controller.index.value == 0 ? 30 : 25,
-                        color: controller.index.value == 0
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                      ),
+                    () => Image.asset(
+                      controller.index.value == 0
+                          ? 'assets/gif/home_green.gif'
+                          : 'assets/gif/home_gray.gif',
+                      height: controller.index.value == 0 ? 35 : 30,
                     ),
                   ),
                 ),
@@ -55,25 +50,11 @@ class MyBotttomNav extends StatelessWidget {
                       controller.index.value = 1;
                     },
                     child: Obx(
-                      () => AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceIn,
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: controller.index.value == 1
-                                ? Theme.of(context).colorScheme.primary
-                                : null),
-                        child: Icon(
-                          Icons.book,
-                          size: controller.index.value == 1 ? 30 : 25,
-                          color: controller.index.value == 1
-                              ? Theme.of(context).colorScheme.onSurface
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                        ),
+                      () => Image.asset(
+                        controller.index.value == 1
+                            ? 'assets/gif/arical_green.gif'
+                            : 'assets/gif/arical_gray.gif',
+                        height: controller.index.value == 1 ? 35 : 30,
                       ),
                     )),
                 InkWell(
@@ -81,25 +62,11 @@ class MyBotttomNav extends StatelessWidget {
                       controller.index.value = 2;
                     },
                     child: Obx(
-                      () => AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.bounceIn,
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: controller.index.value == 2
-                                ? Theme.of(context).colorScheme.primary
-                                : null),
-                        child: Icon(
-                          Icons.settings,
-                          size: controller.index.value == 2 ? 30 : 25,
-                          color: controller.index.value == 2
-                              ? Theme.of(context).colorScheme.onSurface
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                        ),
+                      () => Image.asset(
+                        controller.index.value == 2
+                            ? 'assets/gif/settting_green.gif'
+                            : 'assets/gif/setting_gray.gif',
+                        height: controller.index.value == 2 ? 35 : 30,
                       ),
                     )),
               ],

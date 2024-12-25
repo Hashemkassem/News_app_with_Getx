@@ -43,19 +43,19 @@ class NewTile extends StatelessWidget {
               height: 120,
               width: 120,
               decoration: BoxDecoration(
-                boxShadow: [
-                  const BoxShadow(
-                      color: Colors.black,
-                      // Theme.of(context).colorScheme.secondary,
-                      offset: Offset(4, 4),
-                      blurRadius: 15,
-                      spreadRadius: 1),
-                  BoxShadow(
-                      color: Theme.of(context).colorScheme.surface,
-                      offset: const Offset(-4, -4),
-                      blurRadius: 15,
-                      spreadRadius: 1)
-                ],
+                // boxShadow: [
+                //   const BoxShadow(
+                //       color: Colors.black,
+                //       // Theme.of(context).colorScheme.secondary,
+                //       offset: Offset(4, 4),
+                //       blurRadius: 15,
+                //       spreadRadius: 1),
+                //   BoxShadow(
+                //       color: Theme.of(context).colorScheme.surface,
+                //       offset: const Offset(-4, -4),
+                //       blurRadius: 15,
+                //       spreadRadius: 1)
+                // ],
                 borderRadius: BorderRadius.circular(20),
                 color: Theme.of(context).colorScheme.surface,
               ),

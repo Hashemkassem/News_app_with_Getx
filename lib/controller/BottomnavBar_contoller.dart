@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:get/get.dart';
 import 'package:news_app_with_getx/pages/ArticalsPage/artical._page.dart';
 import 'package:news_app_with_getx/pages/HomePage/home_page.dart';

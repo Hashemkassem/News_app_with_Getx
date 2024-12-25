@@ -29,7 +29,10 @@ class MySearchBar extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Theme.of(context).colorScheme.primary),
-            child: const Icon(Icons.search),
+            child: Image.asset(
+              'assets/gif/search_gray.gif',
+              height: 30,
+            ),
           ),
         ],
       ),

@@ -102,7 +102,7 @@ var darkTheme = ThemeData(
     // here we put surface instade of background
     surface: darkBgcolor,
     onSurface: darkfontcolor,
-    primaryContainer: darkdivcolor,
+    primaryContainer: Color.fromARGB(255, 77, 77, 77),
     onPrimaryContainer: darkfontcolor,
     secondaryContainer: darklablecolor,
     primary: darkPrimartcolor,

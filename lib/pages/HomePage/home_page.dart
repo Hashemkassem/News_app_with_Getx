@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:news_app_with_getx/component/navigation_bar.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/trending_card_page.dart';
+import 'package:news_app_with_getx/pages/NewsDetails/news_details.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -26,15 +28,24 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color:
-                              Theme.of(context).colorScheme.primaryContainer),
-                      padding: const EdgeInsets.all(5),
-                      child: const Icon(
-                        Icons.dashboard_sharp,
-                        size: 30,
+                    InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(4, 4),
+                                blurRadius: 15,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(50),
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer),
+                        padding: const EdgeInsets.all(5),
+                        child: Image.asset(
+                          'assets/gif/newspaper.gif',
+                          height: 30,
+                        ),
                       ),
                     ),
                     Text(
@@ -43,13 +54,20 @@ class HomePage extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black,
+                              offset: Offset(4, 4),
+                              blurRadius: 15,
+                            )
+                          ],
                           borderRadius: BorderRadius.circular(50),
                           color:
                               Theme.of(context).colorScheme.primaryContainer),
                       padding: const EdgeInsets.all(5),
-                      child: const Icon(
-                        Icons.person,
-                        size: 30,
+                      child: Image.asset(
+                        'assets/gif/personn.gif',
+                        height: 30,
                       ),
                     )
                   ],
@@ -73,11 +91,14 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                const SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
                       TrendingCard(
+                        ontap: () {
+                          Get.to(const NewsDetails());
+                        },
                         img:
                             'https://yt3.googleusercontent.com/FlcCWhg2-xPoBL-yH2CjEn9P8b026eZjxS8iCli0AEKnU0PZlHi7-MFEiGrearxlLUCJUf1haw=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj',
                         author: 'witanimes',
@@ -87,6 +108,9 @@ class HomePage extends StatelessWidget {
                             'أربعة زملاء الدراسة لديهم أسرار خاصة يخفونها عن بعضهم البعض ولكن إلى متى !؟',
                       ),
                       TrendingCard(
+                        ontap: () {
+                          Get.to(const NewsDetails());
+                        },
                         img:
                             'https://witanime.cyou/wp-content/uploads/2024/10/Dandadan-413x559.jpg',
                         author: 'witanime',
