@@ -1,65 +1,38 @@
+import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:news_app_with_getx/model/source_model.dart';
+part 'new_model.g.dart';
+
+@JsonSerializable()
+@HiveType(typeId: 0, adapterName: 'NewsAdapter')
 class NewsModel {
-  Source? source;
-  String? author;
-  String? title;
-  String? description;
-  String? url;
-  String? urlToImage;
-  String? publishedAt;
-  String? content;
-
-  NewsModel(
-      {this.source,
-      this.author,
-      this.title,
-      this.description,
-      this.url,
-      this.urlToImage,
-      this.publishedAt,
-      this.content});
-
-  NewsModel.fromJson(Map<String, dynamic> json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) : null;
-    author = json['author'];
-    title = json['title'];
-    description = json['description'];
-    url = json['url'];
-    urlToImage = json['urlToImage'];
-    publishedAt = json['publishedAt'];
-    content = json['content'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (source != null) {
-      data['source'] = source!.toJson();
-    }
-    data['author'] = author;
-    data['title'] = title;
-    data['description'] = description;
-    data['url'] = url;
-    data['urlToImage'] = urlToImage;
-    data['publishedAt'] = publishedAt;
-    data['content'] = content;
-    return data;
-  }
-}
-
-class Source {
-  String? id;
-  String? name;
-
-  Source({this.id, this.name});
-
-  Source.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    return data;
-  }
+  @HiveField(0)
+  final Source source;
+  @HiveField(1)
+  final String? author;
+  @HiveField(2)
+  final String title;
+  @HiveField(3)
+  final String? description;
+  @HiveField(4)
+  final String url;
+  @HiveField(5)
+  final String urlToImage;
+  @HiveField(6)
+  final DateTime publishedAt;
+  @HiveField(7)
+  final String? content;
+  NewsModel({
+    required this.source,
+    this.author,
+    required this.title,
+    required this.description,
+    required this.url,
+    required this.urlToImage,
+    required this.publishedAt,
+    this.content,
+  });
+  factory NewsModel.fromJson(Map<String, dynamic> json) =>
+      _$NewsModelFromJson(json);
+  Map<String, dynamic> toJson() => _$NewsModelToJson(this);
 }

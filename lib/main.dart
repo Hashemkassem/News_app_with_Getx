@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app_with_getx/config/theme.dart';
 import 'package:news_app_with_getx/home_page_conroller.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  // Register Hive adapters
+  // Hive.registerAdapter(NewsAdapter());
+  // Hive.registerAdapter(SourceAdapter());
+  // Open a box for caching
+  await Hive.openBox('newsBox');
   runApp(const MyApp());
 }
 

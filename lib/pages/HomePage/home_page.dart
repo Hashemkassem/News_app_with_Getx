@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app_with_getx/component/navigation_bar.dart';
+import 'package:news_app_with_getx/controller/NewsController.dart';
+import 'package:news_app_with_getx/model/new_model.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/trending_card_page.dart';
 import 'package:news_app_with_getx/pages/NewsDetails/news_details.dart';
@@ -10,15 +12,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NewsController newsController = Get.put(NewsController());
     return Scaffold(
       floatingActionButton: const MyBotttomNav(),
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.surface,
-      //   title: Text(
-      //     'NEWSWEEKERS',
-      //     style: Theme.of(context).textTheme.headlineLarge,
-      //   ),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -91,36 +87,26 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      TrendingCard(
-                        ontap: () {
-                          Get.to(const NewsDetails());
-                        },
-                        img:
-                            'https://yt3.googleusercontent.com/FlcCWhg2-xPoBL-yH2CjEn9P8b026eZjxS8iCli0AEKnU0PZlHi7-MFEiGrearxlLUCJUf1haw=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj',
-                        author: 'witanimes',
-                        tag: 'nin wa Sorezore Uso wo',
-                        time: '2022',
-                        title:
-                            'أربعة زملاء الدراسة لديهم أسرار خاصة يخفونها عن بعضهم البعض ولكن إلى متى !؟',
-                      ),
-                      TrendingCard(
-                        ontap: () {
-                          Get.to(const NewsDetails());
-                        },
-                        img:
-                            'https://witanime.cyou/wp-content/uploads/2024/10/Dandadan-413x559.jpg',
-                        author: 'witanime',
-                        tag: 'Dandadan',
-                        time: '2022',
-                        title:
-                            'لقصة تتحدث عن كين تاكاكورا هو شاب عاشق للسحر ولا يؤمن بالأشباح بينما صديقته مومو أياسي لا تؤمن بوجود الكائنات الفضائية لكنهما معًا سيعثرون على لغز يتحدى جميع معتقداتهم وأعرافهم فتبدأ قصة مثيرة للاهتمام!',
-                      ),
-                    ],
-                  ),
+                Obx(
+                  () {
+                    if (newsController.newsList.isEmpty) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return SizedBox(
+                        height: 220,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: newsController.newsList.length,
+                          itemBuilder: (context, index) {
+                            NewsModel news = newsController.newsList[index];
+                            return TrendingCard(
+                              newsModel: news,
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 20,

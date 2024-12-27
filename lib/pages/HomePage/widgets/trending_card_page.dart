@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_with_getx/model/new_model.dart';
 
 class TrendingCard extends StatelessWidget {
-  final String img;
-  final String title;
-  final String tag;
-  final String time;
-  final String author;
-  final VoidCallback ontap;
-  const TrendingCard(
-      {super.key,
-      required this.img,
-      required this.title,
-      required this.tag,
-      required this.time,
-      required this.author,
-      required this.ontap});
+  final NewsModel newsModel;
+  // final String img;
+  // final String title;
+  // final String tag;
+  // final String time;
+  // final String author;
+  // final VoidCallback ontap;
+  const TrendingCard({
+    super.key,
+    required this.newsModel,
+    // required this.img,
+    // required this.title,
+    // required this.tag,
+    // required this.time,
+    // required this.author,
+    // required this.ontap
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 5, bottom: 20.0),
       child: InkWell(
-        onTap: ontap,
+        onTap: () {},
         child: Container(
           margin: const EdgeInsets.only(right: 10),
           padding: const EdgeInsets.all(5),
@@ -59,7 +63,7 @@ class TrendingCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
                     fit: BoxFit.cover,
-                    img,
+                    newsModel.urlToImage,
                   ),
                 ),
               ),
@@ -71,12 +75,12 @@ class TrendingCard extends StatelessWidget {
                 children: [
                   Text(
                     // ignore: unnecessary_string_interpolations
-                    "$tag",
+                    "${newsModel.description}",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   Text(
                     // ignore: unnecessary_string_interpolations
-                    "$time",
+                    "${newsModel.publishedAt}",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
@@ -87,7 +91,7 @@ class TrendingCard extends StatelessWidget {
                   Flexible(
                     child: Text(
                       // ignore: unnecessary_string_interpolations
-                      "$title",
+                      "${newsModel.title}",
                       maxLines: 2,
                       // style: TextStyle(fontSize: 24),
                       style: Theme.of(context).textTheme.headlineMedium,
@@ -107,7 +111,7 @@ class TrendingCard extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(author)
+                  Text('${newsModel.author}')
                 ],
               )
             ],
