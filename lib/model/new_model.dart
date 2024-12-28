@@ -15,9 +15,9 @@ class NewsModel {
   @HiveField(3)
   final String? description;
   @HiveField(4)
-  final String url;
+  final String? url;
   @HiveField(5)
-  final String urlToImage;
+  final String? urlToImage;
   @HiveField(6)
   final DateTime publishedAt;
   @HiveField(7)

@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     } else {
                       return SizedBox(
-                        height: 220,
+                        height: 340,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: newsController.newsList.length,
@@ -127,27 +127,23 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const SingleChildScrollView(
-                  // scrollDirection: Axis.horizontal,
-                  child: Column(
-                    children: [
-                      NewTile(
-                          time: '2 Day ago',
-                          tag:
-                              'لقصة تتحدث عن كين تاكاكورا هو شاب عاشق للسحر ولا يؤمن بالأشباح بينما صديقته مومو أياسي لا تؤمن بوجود الكائنات الفضائية لكنهما معًا سيعثرون على لغز يتحدى جميع معتقداتهم وأعرافهم فتبدأ قصة مثيرة للاهتمام!',
-                          title: 'Blue Lock',
-                          imgUrl:
-                              'https://witanime.cyou/wp-content/uploads/2024/10/Blue-Lock-vs.-U-20-Japan-413x559.jpg'),
-                      NewTile(
-                          time: '2 Day ago',
-                          tag:
-                              'لقصة تتحدث عن كين تاكاكورا هو شاب عاشق للسحر ولا يؤمن بالأشباح بينما صديقته مومو أياسي لا تؤمن بوجود الكائنات الفضائية لكنهما معًا سيعثرون على لغز يتحدى جميع معتقداتهم وأعرافهم فتبدأ قصة مثيرة للاهتمام!',
-                          title: 'Ao no Miburo',
-                          imgUrl:
-                              'https://witanime.cyou/wp-content/uploads/2024/10/Ao-no-Miburo-413x559.jpg')
-                    ],
-                  ),
-                ),
+                SizedBox(
+                    height: 500,
+                    child: Obx(() {
+                      if (newsController.newsList.isEmpty) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return ListView.builder(
+                          itemCount: newsController.newsList.length,
+                          itemBuilder: (context, index) {
+                            NewsModel news = newsController.newsList[index];
+                            return NewTile(
+                              newsModel: news,
+                            );
+                          },
+                        );
+                      }
+                    })),
               ],
             ),
           ),

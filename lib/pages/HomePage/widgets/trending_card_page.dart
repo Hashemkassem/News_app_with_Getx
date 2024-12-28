@@ -1,33 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
 
 class TrendingCard extends StatelessWidget {
   final NewsModel newsModel;
-  // final String img;
-  // final String title;
-  // final String tag;
-  // final String time;
-  // final String author;
-  // final VoidCallback ontap;
   const TrendingCard({
     super.key,
     required this.newsModel,
-    // required this.img,
-    // required this.title,
-    // required this.tag,
-    // required this.time,
-    // required this.author,
-    // required this.ontap
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 5, bottom: 20.0),
+      padding: const EdgeInsets.only(
+        right: 15,
+      ),
       child: InkWell(
+        borderRadius: BorderRadius.circular(20),
         onTap: () {},
         child: Container(
-          margin: const EdgeInsets.only(right: 10),
+          // margin: const EdgeInsets.only(right: 10),
           padding: const EdgeInsets.all(5),
 
           // height: 300,
@@ -61,10 +53,14 @@ class TrendingCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    fit: BoxFit.cover,
-                    newsModel.urlToImage,
-                  ),
+                  child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: newsModel.urlToImage!,
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }),
                 ),
               ),
               const SizedBox(
@@ -73,14 +69,14 @@ class TrendingCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Text(
+                  //   // ignore: unnecessary_string_interpolations
+                  //   "{newsModel}",
+                  //   style: Theme.of(context).textTheme.labelSmall,
+                  // ),
                   Text(
                     // ignore: unnecessary_string_interpolations
-                    "${newsModel.description}",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  Text(
-                    // ignore: unnecessary_string_interpolations
-                    "${newsModel.publishedAt}",
+                    "Published At: ${getTimeElapsed(newsModel.publishedAt)}",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
@@ -111,7 +107,12 @@ class TrendingCard extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text('${newsModel.author}')
+                  Expanded(
+                      child: Text(
+                    '${newsModel.author}',
+                    style: Theme.of(context).textTheme.labelSmall,
+                    maxLines: 1,
+                  ))
                 ],
               )
             ],
@@ -119,5 +120,19 @@ class TrendingCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getTimeElapsed(DateTime publishedAt) {
+    final now = DateTime.now();
+    final difference = now.difference(publishedAt);
+    if (difference.inDays > 0) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minutes ago';
+    } else {
+      return 'Just now';
+    }
   }
 }
