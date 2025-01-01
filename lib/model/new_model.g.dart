@@ -9,11 +9,10 @@ part of 'new_model.dart';
 NewsModel _$NewsModelFromJson(Map<String, dynamic> json) => NewsModel(
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
       author: json['author'] ?? 'Unknown Author',
-      title: json['title'] ?? 'No Title',
-      description: json['description'] ?? 'No Description',
+      title: json['title'] as String,
+      description: json['description'] as String?,
       url: json['url'] as String?,
-      urlToImage: json['urlToImage'] ??
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Google-flutter-logo.svg/220px-Google-flutter-logo.svg.png',
+      urlToImage: json['urlToImage'] as String?,
       publishedAt: DateTime.parse(json['publishedAt'] as String),
       content: json['content'] as String?,
     );

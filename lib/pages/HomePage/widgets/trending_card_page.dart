@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
+import 'package:news_app_with_getx/pages/NewsDetails/news_details.dart';
 
 class TrendingCard extends StatelessWidget {
   final NewsModel newsModel;
@@ -17,7 +19,7 @@ class TrendingCard extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () {},
+        onTap: () => Get.to(NewsDetails(newsModel: newsModel)),
         child: Container(
           // margin: const EdgeInsets.only(right: 10),
           padding: const EdgeInsets.all(5),
@@ -30,92 +32,84 @@ class TrendingCard extends StatelessWidget {
             color: Theme.of(context).colorScheme.primaryContainer,
           ),
           // MediaQuery.of(context).size.width * 0.6,
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).colorScheme.surface,
-                  // boxShadow: [
-                  //   const BoxShadow(
-                  //       color: Colors.black,
-                  //       // Theme.of(context).colorScheme.secondary,
-                  //       offset: Offset(4, 4),
-                  //       blurRadius: 15,
-                  //       spreadRadius: 1),
-                  //   BoxShadow(
-                  //       color: Theme.of(context).colorScheme.surface,
-                  //       offset: const Offset(-4, -4),
-                  //       blurRadius: 15,
-                  //       spreadRadius: 1)
-                  // ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CachedNetworkImage(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      height: 200,
                       fit: BoxFit.cover,
-                      imageUrl: newsModel.urlToImage!,
+                      imageUrl: newsModel.urlToImage ??
+                          'https://docs.flutter.dev/assets/images/branding/flutter/logo/flutter-mono-81x100.png',
                       progressIndicatorBuilder: (context, url, progress) {
                         return Center(
                           child: CircularProgressIndicator(),
                         );
-                      }),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Text(
-                  //   // ignore: unnecessary_string_interpolations
-                  //   "{newsModel}",
-                  //   style: Theme.of(context).textTheme.labelSmall,
-                  // ),
-                  Text(
-                    // ignore: unnecessary_string_interpolations
-                    "Published At: ${getTimeElapsed(newsModel.publishedAt)}",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      // ignore: unnecessary_string_interpolations
-                      "${newsModel.title}",
-                      maxLines: 2,
-                      // style: TextStyle(fontSize: 24),
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      },
+                      errorWidget: (context, url, error) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // ignore: unnecessary_string_interpolations
+                      "Published At: ${getTimeElapsed(newsModel.publishedAt)}",
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
                       child: Text(
-                    '${newsModel.author}',
-                    style: Theme.of(context).textTheme.labelSmall,
-                    maxLines: 1,
-                  ))
-                ],
-              )
-            ],
+                        // ignore: unnecessary_string_interpolations
+                        "${newsModel.title}",
+                        maxLines: 2,
+                        // style: TextStyle(fontSize: 24),
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: Text(
+                      '${newsModel.author}',
+                      style: Theme.of(context).textTheme.labelSmall,
+                      maxLines: 1,
+                    ))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

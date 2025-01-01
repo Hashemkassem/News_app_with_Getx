@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_app_with_getx/model/new_model.dart';
 
 class NewsDetails extends StatelessWidget {
-  const NewsDetails({super.key});
+  final NewsModel newsModel;
+  const NewsDetails({super.key, required this.newsModel});
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +109,7 @@ class NewsDetails extends StatelessWidget {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: Text(
-                    'Threads’ next update is a search feature that finds the post you’re looking for',
+                child: Text(newsModel.title,
                     style: Theme.of(context).textTheme.displayMedium),
               ),
             ),
@@ -119,7 +121,7 @@ class NewsDetails extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    'Updated|2024-12-02',
+                    "Published At: ${getTimeElapsed(newsModel.publishedAt)}",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
@@ -139,17 +141,9 @@ class NewsDetails extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          'Wes Davis',
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                        Text(
-                          'Wes Davis',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                      ],
+                    Text(
+                      newsModel.author ?? 'No Author',
+                      style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ],
                 )),
@@ -161,8 +155,10 @@ class NewsDetails extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: Text(
-                    'Threads next update is a search feature that finds the post youre looking for Threads next update is a search feature that finds the post youre looking for Youll be able to search for posts filt',
-                    style: Theme.of(context).textTheme.labelLarge),
+                  newsModel.description ?? 'No Description',
+                  // maxLines: 6,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
             ),
             const SizedBox(
@@ -171,18 +167,31 @@ class NewsDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: SizedBox(
-                  // height: 200,
-                  // width: 300,
-                  child: Image.network(
-                      'https://cdn.vox-cdn.com/thumbor/7F_fPNt4RPcVyi-RPF6ww3eAHOg=/11x40:1335x688/1200x628/filters:focal(679x321:680x322)/cdn.vox-cdn.com/uploads/chorus_asset/file/25770219/Threads_search_update.png'),
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox(
+                      // height: 200,
+                      // width: 300,
+                      child: CachedNetworkImage(
+                          imageUrl: newsModel.urlToImage ??
+                              'https://docs.flutter.dev/assets/images/branding/flutter/logo/flutter-mono-81x100.png'))),
             )
           ],
         ),
       ),
     );
+  }
+
+  String getTimeElapsed(DateTime publishedAt) {
+    final now = DateTime.now();
+    final difference = now.difference(publishedAt);
+    if (difference.inDays > 0) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} minutes ago';
+    } else {
+      return 'Just now';
+    }
   }
 }

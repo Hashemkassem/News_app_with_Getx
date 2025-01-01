@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const lightBgcolor = Color.fromARGB(255, 255, 255, 255);
 const lightfontcolor = Color(0xff191828);
 const lightdivcolor = Color(0xffF5F6FA);
-const lightPrimartcolor = Color(0xff110a5c);
+const lightPrimartcolor = Color(0xff30e849);
 const lightlablecolor = Color(0xff8E8E8E);
 
 const darkBgcolor = Color.fromARGB(255, 12, 12, 12);

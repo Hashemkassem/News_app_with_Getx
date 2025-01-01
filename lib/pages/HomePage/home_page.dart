@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app_with_getx/component/navigation_bar.dart';
 import 'package:news_app_with_getx/controller/NewsController.dart';
-import 'package:news_app_with_getx/model/new_model.dart';
+import 'package:news_app_with_getx/pages/DemoPage/new_tile_demo.dart';
+import 'package:news_app_with_getx/pages/DemoPage/trending_card_page.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/trending_card_page.dart';
-import 'package:news_app_with_getx/pages/NewsDetails/news_details.dart';
+
+import '../../controller/tab_controller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NewsController newsController = Get.put(NewsController());
+
     return Scaffold(
       floatingActionButton: const MyBotttomNav(),
       body: SafeArea(
@@ -27,13 +30,6 @@ class HomePage extends StatelessWidget {
                     InkWell(
                       child: Container(
                         decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(4, 4),
-                                blurRadius: 15,
-                              )
-                            ],
                             borderRadius: BorderRadius.circular(50),
                             color:
                                 Theme.of(context).colorScheme.primaryContainer),
@@ -50,13 +46,6 @@ class HomePage extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(4, 4),
-                              blurRadius: 15,
-                            )
-                          ],
                           borderRadius: BorderRadius.circular(50),
                           color:
                               Theme.of(context).colorScheme.primaryContainer),
@@ -89,24 +78,51 @@ class HomePage extends StatelessWidget {
                 ),
                 Obx(
                   () {
-                    if (newsController.newsList.isEmpty) {
-                      return Center(child: CircularProgressIndicator());
+                    if (newsController.newsheadList.isEmpty) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: const [
+                            TrendingDemoCard(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TrendingDemoCard(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TrendingDemoCard(),
+                          ],
+                        ),
+                      );
                     } else {
-                      return SizedBox(
-                        height: 340,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: newsController.newsList.length,
-                          itemBuilder: (context, index) {
-                            NewsModel news = newsController.newsList[index];
-                            return TrendingCard(
-                              newsModel: news,
-                            );
-                          },
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: newsController.newsheadList
+                              .map((e) => TrendingCard(newsModel: e))
+                              .toList(),
                         ),
                       );
                     }
                   },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TabBar(
+                  dividerColor: Colors.transparent,
+                  tabs: newsController.mytaps,
+                  unselectedLabelColor:
+                      const Color.fromARGB(255, 122, 122, 122),
+                  // indicator: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     shape: BoxShape.rectangle,
+                  //     color: Theme.of(context)
+                  //         .colorScheme
+                  //         .primary
+                  //         .withOpacity(0.4)),
+                  controller: newsController.controller,
                 ),
                 const SizedBox(
                   height: 20,
@@ -127,23 +143,46 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                    height: 500,
-                    child: Obx(() {
-                      if (newsController.newsList.isEmpty) {
-                        return Center(child: CircularProgressIndicator());
-                      } else {
-                        return ListView.builder(
-                          itemCount: newsController.newsList.length,
-                          itemBuilder: (context, index) {
-                            NewsModel news = newsController.newsList[index];
-                            return NewTile(
-                              newsModel: news,
-                            );
-                          },
-                        );
-                      }
-                    })),
+                Obx(() {
+                  if (newsController.newseveryList.isEmpty) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: const [
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: newsController.newseveryList
+                            .map((e) => NewTile(newsModel: e))
+                            .toList(),
+                      ),
+                    );
+                    // ListView.builder(
+                    //   itemCount: newsController.newseveryList.length,
+                    //   itemBuilder: (context, index) {
+                    //     NewsModel news =
+                    //         newsController.newseveryList[index];
+                    //     return NewTile(
+                    //       newsModel: news,
+                    //     );
+                    //   },
+                    // );
+                  }
+                }),
               ],
             ),
           ),
