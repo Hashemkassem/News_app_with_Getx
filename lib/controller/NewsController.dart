@@ -8,6 +8,8 @@ import 'package:news_app_with_getx/model/new_model.dart';
 class NewsController extends GetxController with SingleGetTickerProviderMixin {
   RxList<NewsModel> newsheadList = <NewsModel>[].obs;
   RxList<NewsModel> newseveryList = <NewsModel>[].obs;
+  var searchResults = <NewsModel>[].obs;
+  final RxString searchQuery = ''.obs;
   late TabController controller;
 
   final List<Tab> mytaps = <Tab>[
@@ -65,4 +67,28 @@ class NewsController extends GetxController with SingleGetTickerProviderMixin {
       print('Error:Eff $e');
     }
   }
+
+  void updateSearchQuery(String query) {
+    searchQuery.value = query;
+    filterResults();
+  }
+
+  void filterResults() {
+    if (searchQuery.value.isEmpty) {
+      searchResults.value = newseveryList;
+    } else {
+      searchResults.value = newseveryList
+          .where((news) =>
+              news.title
+                  .toLowerCase()
+                  .contains(searchQuery.value.toLowerCase()) ||
+              (news.description
+                      ?.toLowerCase()
+                      .contains(searchQuery.value.toLowerCase()) ??
+                  false))
+          .toList();
+    }
+  }
+
+  // String get searchQuery => searchQuery.value;
 }

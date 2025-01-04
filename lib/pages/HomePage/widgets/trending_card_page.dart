@@ -19,7 +19,9 @@ class TrendingCard extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => Get.to(NewsDetails(newsModel: newsModel)),
+        onTap: () {
+          Get.to(NewsDetails(newsModel: newsModel));
+        },
         child: Container(
           // margin: const EdgeInsets.only(right: 10),
           padding: const EdgeInsets.all(5),
@@ -43,21 +45,28 @@ class TrendingCard extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: CachedNetworkImage(
-                      height: 200,
-                      fit: BoxFit.cover,
-                      imageUrl: newsModel.urlToImage ??
-                          'https://docs.flutter.dev/assets/images/branding/flutter/logo/flutter-mono-81x100.png',
-                      progressIndicatorBuilder: (context, url, progress) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
+                    child: Hero(
+                      tag: newsModel.title,
+                      child: CachedNetworkImage(
+                        height: 200,
+                        fit: BoxFit.cover,
+                        imageUrl: newsModel.urlToImage ??
+                            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                        placeholder: (context, url) {
+                          return CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl:
+                                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                          );
+                        },
+                        errorWidget: (context, url, error) {
+                          return CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl:
+                                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -78,12 +87,15 @@ class TrendingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text(
-                        // ignore: unnecessary_string_interpolations
-                        "${newsModel.title}",
-                        maxLines: 2,
-                        // style: TextStyle(fontSize: 24),
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      child: Hero(
+                        tag: newsModel.publishedAt,
+                        child: Text(
+                          // ignore: unnecessary_string_interpolations
+                          "${newsModel.title}",
+                          maxLines: 2,
+                          // style: TextStyle(fontSize: 24),
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
                       ),
                     ),
                   ],
@@ -96,6 +108,13 @@ class TrendingCard extends StatelessWidget {
                     CircleAvatar(
                       radius: 15,
                       backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: Text(
+                        newsModel.author?[0] ?? 'N',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,

@@ -40,6 +40,7 @@ dependencies:
   hive_flutter: null
   json_annotation: null
   shimmer: ^3.0.0
+  zoom_tap_animation:
 
 dev_dependencies:
   build_runner: null

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app_with_getx/controller/BottomnavBar_contoller.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class MyBotttomNav extends StatelessWidget {
   const MyBotttomNav({super.key});
@@ -37,11 +38,13 @@ class MyBotttomNav extends StatelessWidget {
                     controller.index.value = 0;
                   },
                   child: Obx(
-                    () => Image.asset(
-                      controller.index.value == 0
-                          ? 'assets/gif/home_green.gif'
-                          : 'assets/gif/home_gray.gif',
-                      height: controller.index.value == 0 ? 35 : 30,
+                    () => ZoomTapAnimation(
+                      child: Image.asset(
+                        controller.index.value == 0
+                            ? 'assets/gif/home_green.gif'
+                            : 'assets/gif/home_gray.gif',
+                        height: controller.index.value == 0 ? 35 : 30,
+                      ),
                     ),
                   ),
                 ),
@@ -50,11 +53,13 @@ class MyBotttomNav extends StatelessWidget {
                       controller.index.value = 1;
                     },
                     child: Obx(
-                      () => Image.asset(
-                        controller.index.value == 1
-                            ? 'assets/gif/arical_green.gif'
-                            : 'assets/gif/arical_gray.gif',
-                        height: controller.index.value == 1 ? 35 : 30,
+                      () => ZoomTapAnimation(
+                        child: Image.asset(
+                          controller.index.value == 1
+                              ? 'assets/gif/nav_bookmark_green.gif'
+                              : 'assets/gif/nav_bookmark_gray.gif',
+                          height: controller.index.value == 1 ? 35 : 30,
+                        ),
                       ),
                     )),
                 InkWell(
@@ -62,11 +67,13 @@ class MyBotttomNav extends StatelessWidget {
                       controller.index.value = 2;
                     },
                     child: Obx(
-                      () => Image.asset(
-                        controller.index.value == 2
-                            ? 'assets/gif/settting_green.gif'
-                            : 'assets/gif/setting_gray.gif',
-                        height: controller.index.value == 2 ? 35 : 30,
+                      () => ZoomTapAnimation(
+                        child: Image.asset(
+                          controller.index.value == 2
+                              ? 'assets/gif/settting_green.gif'
+                              : 'assets/gif/setting_gray.gif',
+                          height: controller.index.value == 2 ? 35 : 30,
+                        ),
                       ),
                     )),
               ],

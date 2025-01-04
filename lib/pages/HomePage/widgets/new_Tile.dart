@@ -20,7 +20,9 @@ class NewTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => Get.to(NewsDetails(newsModel: newsModel)),
+        onTap: () {
+          Get.to(NewsDetails(newsModel: newsModel));
+        },
         child: Container(
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -40,7 +42,7 @@ class NewTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: CachedNetworkImage(
                     imageUrl: newsModel.urlToImage ??
-                        'https://docs.flutter.dev/assets/images/branding/flutter/logo/flutter-mono-81x100.png',
+                        'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
                     progressIndicatorBuilder: (context, url, progress) {
                       return Center(child: CircularProgressIndicator());
                     },
@@ -64,12 +66,19 @@ class NewTile extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          radius: 5,
+                          radius: 10,
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
+                          child: Text(
+                            newsModel.author?[0] ?? 'N',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         const SizedBox(
-                          width: 10,
+                          width: 5,
                         ),
                         Expanded(
                           child: Text(

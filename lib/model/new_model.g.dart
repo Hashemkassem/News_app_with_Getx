@@ -8,12 +8,13 @@ part of 'new_model.dart';
 
 NewsModel _$NewsModelFromJson(Map<String, dynamic> json) => NewsModel(
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      author: json['author'] ?? 'Unknown Author',
+      author: json['author'] as String?,
       title: json['title'] as String,
       description: json['description'] as String?,
       url: json['url'] as String?,
       urlToImage: json['urlToImage'] as String?,
       publishedAt: DateTime.parse(json['publishedAt'] as String),
+      category: json['category'] as String?,
       content: json['content'] as String?,
     );
 
@@ -26,4 +27,5 @@ Map<String, dynamic> _$NewsModelToJson(NewsModel instance) => <String, dynamic>{
       'urlToImage': instance.urlToImage,
       'publishedAt': instance.publishedAt.toIso8601String(),
       'content': instance.content,
+      'category': instance.category,
     };

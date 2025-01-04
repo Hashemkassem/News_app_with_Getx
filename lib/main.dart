@@ -12,7 +12,7 @@ void main() async {
   // Hive.registerAdapter(SourceAdapter());
   // Open a box for caching
   await Hive.openBox('newsBox');
-  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

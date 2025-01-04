@@ -22,6 +22,8 @@ class NewsModel {
   final DateTime publishedAt;
   @HiveField(7)
   final String? content;
+  @HiveField(8)
+  final String? category;
   NewsModel({
     required this.source,
     this.author,
@@ -30,6 +32,7 @@ class NewsModel {
     required this.url,
     required this.urlToImage,
     required this.publishedAt,
+    required this.category,
     this.content,
   });
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
