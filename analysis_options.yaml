@@ -11,6 +11,8 @@ analyzer:
   errors:
     unnecessary_string_interpolations: ignore
     prefer_const_constructors: ignore
+    constant_identifier_names: ignore
+    prefer_const_declarations: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NewsController newsController = Get.put(NewsController());
-
     return Scaffold(
       floatingActionButton: const MyBotttomNav(),
       extendBodyBehindAppBar: true,
@@ -26,10 +25,10 @@ class HomePage extends StatelessWidget {
             child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            color: Colors.transparent,
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.6),
           ),
         )),
-        backgroundColor: Theme.of(context).colorScheme.surface.withAlpha(200),
+        backgroundColor: Colors.transparent,
         leadingWidth: 50,
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -37,7 +36,10 @@ class HomePage extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.primaryContainer),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.3)),
               padding: const EdgeInsets.all(5),
               child: ZoomTapAnimation(
                 child: Image.asset(
@@ -48,10 +50,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        title: Text(
-          'NEWSWEEKERS',
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -59,11 +57,37 @@ class HomePage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: Theme.of(context).colorScheme.primaryContainer),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withOpacity(0.3)),
                 padding: const EdgeInsets.all(5),
                 child: ZoomTapAnimation(
                   child: Image.asset(
                     'assets/gif/personn.gif',
+                    height: 30,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withOpacity(0.3)),
+                padding: const EdgeInsets.all(5),
+                child: ZoomTapAnimation(
+                  child: Image.asset(
+                    'assets/gif/notefication_green.gif',
                     height: 30,
                   ),
                 ),
@@ -74,178 +98,134 @@ class HomePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 90,
-              ), // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     InkWell(
-              //       child: Container(
-              //         decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(50),
-              //             color:
-              //                 Theme.of(context).colorScheme.primaryContainer),
-              //         padding: const EdgeInsets.all(5),
-              //         child: ZoomTapAnimation(
-              //           child: Image.asset(
-              //             'assets/gif/search_green.gif',
-              //             height: 30,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //     Text(
-              //       'NEWSWEEKERS',
-              //       style: Theme.of(context).textTheme.headlineLarge,
-              //     ),
-              //     Container(
-              //       decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(50),
-              //           color:
-              //               Theme.of(context).colorScheme.primaryContainer),
-              //       padding: const EdgeInsets.all(5),
-              //       child: ZoomTapAnimation(
-              //         child: Image.asset(
-              //           'assets/gif/personn.gif',
-              //           height: 30,
-              //         ),
-              //       ),
-              //     )
-              //   ],
-              // ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Hottest News',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(
-                    'See All',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Obx(
-                () {
-                  if (newsController.newsheadList.isEmpty) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: const [
-                          TrendingDemoCard(),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          TrendingDemoCard(),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          TrendingDemoCard(),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: newsController.newsheadList
-                            .map((e) => TrendingCard(newsModel: e))
-                            .toList(),
-                      ),
-                    );
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TabBar(
-                isScrollable: true,
-                indicatorPadding: EdgeInsets.only(right: 5, left: 5),
-                // labelPadding: EdgeInsets.all(5),
-                automaticIndicatorColorAdjustment: true,
-                splashBorderRadius: BorderRadius.circular(15),
-                indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3)),
-                indicatorSize: TabBarIndicatorSize.tab,
-                dividerColor: Colors.transparent,
-                tabs: newsController.mytaps,
-                unselectedLabelColor: const Color.fromARGB(255, 122, 122, 122),
-                controller: newsController.controller,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Hottest News',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  Text(
-                    'See All',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Obx(() {
-                if (newsController.newseveryList.isEmpty) {
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Hottest News',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Text(
+                  'See All',
+                  style: Theme.of(context).textTheme.labelSmall,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Obx(
+              () {
+                if (newsController.newsheadList.isEmpty) {
                   return SingleChildScrollView(
-                    child: Column(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
                       children: const [
-                        NewTileDemo(),
+                        TrendingDemoCard(),
                         SizedBox(
-                          height: 20,
+                          width: 20,
                         ),
-                        NewTileDemo(),
+                        TrendingDemoCard(),
                         SizedBox(
-                          height: 20,
+                          width: 20,
                         ),
-                        NewTileDemo(),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        TrendingDemoCard(),
                       ],
                     ),
                   );
                 } else {
                   return SingleChildScrollView(
-                    child: Column(
-                      children: newsController.newseveryList
-                          .map((e) => NewTile(newsModel: e))
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: newsController.newsheadList
+                          .map((e) => TrendingCard(newsModel: e))
                           .toList(),
                     ),
                   );
-                  // ListView.builder(
-                  //   itemCount: newsController.newseveryList.length,
-                  //   itemBuilder: (context, index) {
-                  //     NewsModel news =
-                  //         newsController.newseveryList[index];
-                  //     return NewTile(
-                  //       newsModel: news,
-                  //     );
-                  //   },
-                  // );
                 }
-              }),
-            ],
-          ),
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TabBar(
+              isScrollable: true,
+              labelColor: Colors.white,
+              indicatorPadding: EdgeInsets.only(right: 5, left: 5),
+              // labelPadding: EdgeInsets.all(5),
+              automaticIndicatorColorAdjustment: true,
+              splashBorderRadius: BorderRadius.circular(15),
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Theme.of(context).colorScheme.primary),
+              indicatorSize: TabBarIndicatorSize.tab,
+              dividerColor: Colors.transparent,
+              tabs: newsController.mytaps,
+              unselectedLabelColor: const Color.fromARGB(255, 122, 122, 122),
+              controller: newsController.controller,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Hottest News',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Text(
+                  'See All',
+                  style: Theme.of(context).textTheme.labelSmall,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(() {
+              if (newsController.newseveryList.isEmpty) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: const [
+                      NewTileDemo(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      NewTileDemo(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      NewTileDemo(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: newsController.newseveryList
+                        .map((e) => NewTile(newsModel: e))
+                        .toList(),
+                  ),
+                );
+                // ListView.builder(
+                //   itemCount: newsController.newseveryList.length,
+                //   itemBuilder: (context, index) {
+                // NewsModel news =
+                //     newsController.newseveryList[index];
+                // return NewTile(
+                //   newsModel: news,
+                // );
+                //   },
+                // );
+              }
+            }),
+          ],
         ),
       ),
     );

@@ -45,28 +45,25 @@ class TrendingCard extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Hero(
-                      tag: newsModel.title,
-                      child: CachedNetworkImage(
-                        height: 200,
-                        fit: BoxFit.cover,
-                        imageUrl: newsModel.urlToImage ??
-                            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
-                        placeholder: (context, url) {
-                          return CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl:
-                                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
-                          );
-                        },
-                        errorWidget: (context, url, error) {
-                          return CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl:
-                                'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
-                          );
-                        },
-                      ),
+                    child: CachedNetworkImage(
+                      height: 200,
+                      fit: BoxFit.cover,
+                      imageUrl: newsModel.urlToImage ??
+                          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                      placeholder: (context, url) {
+                        return CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl:
+                              'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl:
+                              'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                        );
+                      },
                     ),
                   ),
                 ),

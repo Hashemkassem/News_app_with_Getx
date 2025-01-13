@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_app_with_getx/controller/NewsController.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -10,6 +11,7 @@ class SliverDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final NewsController newsController = Get.put(NewsController());
     final size = MediaQuery.of(context).size;
     return SliverAppBar(
       leadingWidth: 45,
@@ -50,11 +52,21 @@ class SliverDetails extends StatelessWidget {
                     .primaryContainer
                     .withOpacity(0.7)),
             padding: const EdgeInsets.all(8),
-            child: ZoomTapAnimation(
-              child: Image.asset(
-                'assets/gif/bookmark_green.gif',
-                height: 25,
-              ),
+            child: InkWell(
+              onTap: () {
+                newsController.isBookmarked(newsModel)
+                    ? newsController.removeBookmark(newsModel)
+                    : newsController.addBookmark(newsModel);
+              },
+              child: ZoomTapAnimation(
+                  child: Obx(
+                () => Image.asset(
+                  newsController.isBookmarked(newsModel)
+                      ? 'assets/gif/nav_bookmark_green.gif'
+                      : 'assets/gif/bookmark_green.gif',
+                  height: 25,
+                ),
+              )),
             ),
           ),
         )
@@ -83,16 +95,26 @@ class SliverDetails extends StatelessWidget {
                 },
               ),
             ),
-            // Positioned.fill(
-            //   child: Opacity(
-            //     opacity: 0.15,
-            //     child: DecoratedBox(
-            //       decoration: BoxDecoration(
-            //         color: Colors.black,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Positioned.fill(
+              // bottom: 20,
+              child: SizedBox(
+                width: size.width,
+                height: size.height * 0.25,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.center,
+                      colors: [
+                        Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                        Theme.of(context).colorScheme.surface.withOpacity(0.2),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Positioned(
               bottom: 50,
               left: 16,
@@ -109,7 +131,7 @@ class SliverDetails extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        newsModel.category ?? 'Business',
+                        newsModel.category ?? newsModel.source.name,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
@@ -147,7 +169,7 @@ class SliverDetails extends StatelessWidget {
         ],
       ),
       pinned: true,
-      // collapsedHeight: size.height * 0.1,
+      // collapsedHeight: size.height * 0.14,
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: SizedBox(

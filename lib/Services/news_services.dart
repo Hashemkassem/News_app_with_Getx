@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:dio/dio.dart';
+import 'package:news_app_with_getx/config/constant.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
 
@@ -8,7 +9,7 @@ class NewsServices {
   final Dio dio = Dio();
   // final Box _newsBox = Hive.box('newsBox');
 
-  Future<List<NewsModel>> FetchHeadlinesNews() async {
+  Future<List<NewsModel>> FetchBreakingNews() async {
     // final cachedNews = _newsBox.get('newsList');
     // if (cachedNews != null) {
     //   return (cachedNews as List)
@@ -16,10 +17,9 @@ class NewsServices {
     //       .toList();
     // }
 
-    final response =
-        await dio.get('https://newsapi.org/v2/top-headlines', queryParameters: {
+    final response = await dio.get('$Base_Url/top-headlines', queryParameters: {
       'country': 'us',
-      'apiKey': '4106a9a083344bf693b5a419eff23c1c',
+      'apiKey': API_KEY,
       'category': 'business'
     });
 
@@ -34,7 +34,7 @@ class NewsServices {
     }
   }
 
-  Future<List<NewsModel>> FetchEveryThingNews() async {
+  Future<List<NewsModel>> FetchEveryThingNews(String q) async {
     // final cachedNews = _newsBox.get('newsList');
     // if (cachedNews != null) {
     //   return (cachedNews as List)
@@ -42,10 +42,9 @@ class NewsServices {
     //       .toList();
     // }
 
-    final response =
-        await dio.get('https://newsapi.org/v2/everything', queryParameters: {
-      'q': 'bitcoin',
-      // 'country': 'us',
+    final response = await dio.get('$Base_Url/everything', queryParameters: {
+      'q': 'keyword',
+      'country': 'us',
       'apiKey': '4106a9a083344bf693b5a419eff23c1c',
     });
 
@@ -60,3 +59,5 @@ class NewsServices {
     }
   }
 }
+// All Sources
+//https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY

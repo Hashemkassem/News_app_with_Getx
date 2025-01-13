@@ -10,7 +10,7 @@ class NewsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    // final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -28,25 +28,25 @@ class NewsDetails extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: SizedBox(
-              width: size.width,
-              height: size.height * 0.25,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.center,
-                    colors: const [
-                      Colors.black,
-                      Colors.transparent,
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
+          // Positioned(
+          //   bottom: 0,
+          //   child: SizedBox(
+          //     width: size.width,
+          //     height: size.height * 0.25,
+          //     child: DecoratedBox(
+          //       decoration: BoxDecoration(
+          //         gradient: LinearGradient(
+          //           begin: Alignment.bottomCenter,
+          //           end: Alignment.center,
+          //           colors: [
+          //             Theme.of(context).colorScheme.primary,
+
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

@@ -39,6 +39,7 @@ dependencies:
   hive: null
   hive_flutter: null
   json_annotation: null
+  liquid_pull_to_refresh: ^3.0.1
   shimmer: ^3.0.0
   zoom_tap_animation:
 
