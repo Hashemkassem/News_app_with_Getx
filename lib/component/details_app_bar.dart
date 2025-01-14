@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:news_app_with_getx/controller/NewsController.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+import 'dart:io';
 
 class SliverDetails extends StatelessWidget {
   const SliverDetails({super.key, required this.newsModel});
@@ -69,7 +70,33 @@ class SliverDetails extends StatelessWidget {
               )),
             ),
           ),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.7)),
+            padding: const EdgeInsets.all(8),
+            child: InkWell(
+              onTap: () {
+                newsController.downloadImage(
+                    newsModel.urlToImage ??
+                        'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930',
+                    'image${newsModel.source.name}',
+                    context);
+              },
+              child: ZoomTapAnimation(
+                  child: Icon(
+                Icons.download_rounded,
+                color: Color(0xff30e849),
+              )),
+            ),
+          ),
+        ),
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -116,7 +143,7 @@ class SliverDetails extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 50,
+              bottom: 10,
               left: 16,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,21 +197,6 @@ class SliverDetails extends StatelessWidget {
       ),
       pinned: true,
       // collapsedHeight: size.height * 0.14,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        child: SizedBox(
-          height: 30,
-          width: size.width,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 

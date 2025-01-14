@@ -15,7 +15,7 @@ class ArticalPage extends StatelessWidget {
         GlobalKey<LiquidPullToRefreshState>();
     NewsController newsController = Get.put(NewsController());
     return Scaffold(
-      floatingActionButton: MyBotttomNav(),
+      // floatingActionButton: MyBotttomNav(),
       body: LiquidPullToRefresh(
         key: refreshIndicatorKey,
         onRefresh: () async {

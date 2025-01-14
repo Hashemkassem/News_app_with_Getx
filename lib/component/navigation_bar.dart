@@ -13,82 +13,85 @@ class MyBotttomNav extends StatelessWidget {
     NewsController controller = Get.put(NewsController());
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  width: 250,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primaryContainer
-                        .withOpacity(0.5),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        // onHover: (value) {},
-                        onTap: () {
-                          controller.index.value = 0;
-                        },
-                        child: Obx(
-                          () => ZoomTapAnimation(
-                            child: Image.asset(
-                              controller.index.value == 0
-                                  ? 'assets/gif/home_green.gif'
-                                  : 'assets/gif/home_gray.gif',
-                              height: controller.index.value == 0 ? 35 : 30,
+        padding: const EdgeInsets.all(8.0),
+        child: Obx(() {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      width: 250,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primaryContainer
+                            .withOpacity(0.5),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            // onHover: (value) {},
+                            onTap: () {
+                              controller.changePage(0);
+                            },
+                            child: ZoomTapAnimation(
+                              child: Image.asset(
+                                controller.currentIndex.value == 0
+                                    ? 'assets/gif/home_green.gif'
+                                    : 'assets/gif/home_gray.gif',
+                                height: controller.currentIndex.value == 0
+                                    ? 35
+                                    : 30,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      InkWell(
-                          onTap: () {
-                            controller.index.value = 1;
-                          },
-                          child: Obx(
-                            () => ZoomTapAnimation(
+                          InkWell(
+                            onTap: () {
+                              controller.changePage(1);
+                            },
+                            child: ZoomTapAnimation(
                               child: Image.asset(
-                                controller.index.value == 1
+                                controller.currentIndex.value == 1
                                     ? 'assets/gif/nav_bookmark_green.gif'
                                     : 'assets/gif/nav_bookmark_gray.gif',
-                                height: controller.index.value == 1 ? 35 : 30,
+                                height: controller.currentIndex.value == 1
+                                    ? 35
+                                    : 30,
                               ),
                             ),
-                          )),
-                      InkWell(
-                          onTap: () {
-                            controller.index.value = 2;
-                          },
-                          child: Obx(
-                            () => ZoomTapAnimation(
+                          ),
+                          InkWell(
+                            onTap: () {
+                              controller.changePage(2);
+                            },
+                            child: ZoomTapAnimation(
                               child: Image.asset(
-                                controller.index.value == 2
+                                controller.currentIndex.value == 2
                                     ? 'assets/gif/settting_green.gif'
                                     : 'assets/gif/setting_gray.gif',
-                                height: controller.index.value == 2 ? 35 : 30,
+                                height: controller.currentIndex.value == 2
+                                    ? 35
+                                    : 30,
                               ),
                             ),
-                          )),
-                    ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+              )
+            ],
+          );
+        }));
   }
 }

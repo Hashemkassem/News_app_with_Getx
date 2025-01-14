@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:news_app_with_getx/component/navigation_bar.dart';
 import 'package:news_app_with_getx/controller/NewsController.dart';
 import 'package:news_app_with_getx/pages/DemoPage/new_tile_demo.dart';
 import 'package:news_app_with_getx/pages/DemoPage/trending_card_page.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
+import 'package:news_app_with_getx/pages/HomePage/widgets/news_category_view.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/trending_card_page.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -17,7 +17,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     NewsController newsController = Get.put(NewsController());
     return Scaffold(
-      floatingActionButton: const MyBotttomNav(),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
@@ -77,6 +76,7 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -118,7 +118,7 @@ class HomePage extends StatelessWidget {
             ),
             Obx(
               () {
-                if (newsController.newsheadList.isEmpty) {
+                if (newsController.breakingNewsList.isEmpty) {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -139,7 +139,7 @@ class HomePage extends StatelessWidget {
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: newsController.newsheadList
+                      children: newsController.breakingNewsList
                           .map((e) => TrendingCard(newsModel: e))
                           .toList(),
                     ),
@@ -152,6 +152,7 @@ class HomePage extends StatelessWidget {
             ),
             TabBar(
               isScrollable: true,
+
               labelColor: Colors.white,
               indicatorPadding: EdgeInsets.only(right: 5, left: 5),
               // labelPadding: EdgeInsets.all(5),
@@ -162,9 +163,14 @@ class HomePage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary),
               indicatorSize: TabBarIndicatorSize.tab,
               dividerColor: Colors.transparent,
-              tabs: newsController.mytaps,
+              tabs: newsController.categories
+                  .map((category) => Tab(text: category.capitalizeFirst))
+                  .toList(),
               unselectedLabelColor: const Color.fromARGB(255, 122, 122, 122),
-              controller: newsController.controller,
+              controller: newsController.tabController,
+              onTap: (index) {
+                newsController.changeCategory(newsController.categories[index]);
+              },
             ),
             const SizedBox(
               height: 20,
@@ -185,8 +191,15 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            // TabBarView(
+            //   controller: newsController.tabController,
+            //   children:
+            // newsController.categories
+            //     .map((category) => NewsCategoryView(category: category))
+            //     .toList(),
+            // )
             Obx(() {
-              if (newsController.newseveryList.isEmpty) {
+              if (newsController.newsheadList.isEmpty) {
                 return SingleChildScrollView(
                   child: Column(
                     children: const [
@@ -206,23 +219,39 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: newsController.newseveryList
-                        .map((e) => NewTile(newsModel: e))
-                        .toList(),
-                  ),
-                );
-                // ListView.builder(
-                //   itemCount: newsController.newseveryList.length,
-                //   itemBuilder: (context, index) {
-                // NewsModel news =
-                //     newsController.newseveryList[index];
-                // return NewTile(
-                //   newsModel: news,
-                // );
-                //   },
-                // );
+                if (newsController.isLoading.value) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: const [
+                        NewTileDemo(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        NewTileDemo(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        NewTileDemo(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: newsController.tabController,
+                      children: newsController.categories
+                          .map((e) => NewsCategoryView(
+                                category: e,
+                              ))
+                          .toList(),
+                    ),
+                  );
+                }
               }
             }),
           ],

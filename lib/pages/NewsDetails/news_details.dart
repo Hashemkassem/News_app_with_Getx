@@ -28,25 +28,6 @@ class NewsDetails extends StatelessWidget {
               ],
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   child: SizedBox(
-          //     width: size.width,
-          //     height: size.height * 0.25,
-          //     child: DecoratedBox(
-          //       decoration: BoxDecoration(
-          //         gradient: LinearGradient(
-          //           begin: Alignment.bottomCenter,
-          //           end: Alignment.center,
-          //           colors: [
-          //             Theme.of(context).colorScheme.primary,
-
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );

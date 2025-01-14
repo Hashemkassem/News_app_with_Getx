@@ -5,46 +5,38 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:news_app_with_getx/Services/news_services.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../pages/ArticalsPage/artical._page.dart';
 import '../pages/HomePage/home_page.dart';
 import '../pages/Profile/profile_page.dart';
 
 class NewsController extends GetxController with SingleGetTickerProviderMixin {
+  final NewsServices newsService = NewsServices();
+
   RxList<NewsModel> newsheadList = <NewsModel>[].obs;
-  RxList<NewsModel> newseveryList = <NewsModel>[].obs;
+  RxList<NewsModel> breakingNewsList = <NewsModel>[].obs;
   RxList<NewsModel> searchResults = <NewsModel>[].obs;
   RxList<NewsModel> bookmarks = <NewsModel>[].obs;
   var isLoading = false.obs;
   final RxString searchQuery = ''.obs;
+  final RxString downloadedImagePath = ''.obs;
   final Box<NewsModel> _bookmarkBox = Hive.box('bookmark');
-  late TabController controller;
+  PageController pageController = PageController();
+  late TabController tabController;
 
-  final List<Tab> mytaps = <Tab>[
-    Tab(
-      text: 'general',
-    ),
-    Tab(
-      text: 'Business',
-    ),
-    Tab(
-      text: 'Entertainment',
-    ),
-    Tab(
-      text: 'Health',
-    ),
-    Tab(
-      text: 'Science',
-    ),
-    Tab(
-      text: 'Sports',
-    ),
-    Tab(
-      text: 'Technology',
-    ),
+  final List<String> categories = [
+    'general',
+    'Business',
+    'Entertainment',
+    'Health',
+    'Science',
+    'Sports',
+    'Technology',
   ];
+  final RxString currentCategory = 'general'.obs;
 
-  RxInt index = 0.obs;
+  RxInt currentIndex = 0.obs;
 
   var pages = [
     const HomePage(),
@@ -53,37 +45,54 @@ class NewsController extends GetxController with SingleGetTickerProviderMixin {
   ];
   @override
   void onInit() {
-    controller = TabController(length: mytaps.length, vsync: this);
+    tabController = TabController(length: categories.length, vsync: this);
     super.onInit();
+    requestStoragePermission();
     fetchBreakingNews();
     fetchEverythingNews();
     loadBookmarks();
   }
 
+  void changePage(int index) {
+    currentIndex.value = index;
+    pageController.jumpToPage(index);
+  }
+
+  void onPageChanged(int index) {
+    currentIndex.value = index;
+    tabController.animateTo(index);
+  }
+
   @override
   void onClose() {
-    controller.dispose();
+    tabController.dispose();
+    pageController.dispose();
     super.onClose();
   }
 
   Future<void> fetchBreakingNews() async {
     isLoading.value = true;
     try {
-      List<NewsModel> news = await NewsServices().FetchBreakingNews();
-      newsheadList.assignAll(news);
+      List<NewsModel> news = await newsService.FetchBreakingNews();
+      breakingNewsList.assignAll(news);
     } catch (e) {
       print('Error:ff $e');
     }
     isLoading.value = false;
   }
 
+  void changeCategory(String category) {
+    currentCategory.value = category;
+    fetchEverythingNews();
+  }
+
   Future<void> fetchEverythingNews() async {
     isLoading.value = true;
     try {
+      currentCategory.value = currentCategory.value;
       List<NewsModel> news =
-          await NewsServices().FetchEveryThingNews(searchQuery.toString());
-      newseveryList.assignAll(news);
-      print('555555   ${newsheadList.length.toString()}');
+          await newsService.FetchEveryThingNews(currentCategory.value);
+      newsheadList.assignAll(news);
     } catch (e) {
       print('Error:Eff $e');
     }
@@ -96,11 +105,51 @@ class NewsController extends GetxController with SingleGetTickerProviderMixin {
     filterResults();
   }
 
+  void downloadImage(String url, String fileName, BuildContext context) async {
+    try {
+      isLoading(true);
+
+      if (await requestStoragePermission()) {
+        final filePath = await newsService.downloadImage(url, fileName);
+        if (filePath != null) {
+          downloadedImagePath.value = filePath;
+          Get.snackbar('Success', 'Image downloaded successfully',
+              colorText: Theme.of(context).colorScheme.primary);
+        } else {
+          Get.snackbar('Error', 'Failed to download image',
+              colorText: Theme.of(context).colorScheme.primary);
+        }
+      } else {
+        Get.snackbar('Permission Denied', '',
+            colorText: Theme.of(context).colorScheme.primary);
+      }
+    } catch (e) {
+      Get.snackbar('Error', '',
+          colorText: Theme.of(context).colorScheme.primary);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<bool> requestStoragePermission() async {
+    var status = await Permission.storage.status;
+    if (status.isGranted) {
+      return true;
+    } else if (status.isDenied) {
+      final result = await Permission.storage.request();
+      return result.isGranted;
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+      return false;
+    }
+    return false;
+  }
+
   void filterResults() {
     if (searchQuery.value.isEmpty) {
-      searchResults.value = newseveryList;
+      searchResults.value = breakingNewsList;
     } else {
-      searchResults.value = newseveryList
+      searchResults.value = breakingNewsList
           .where((news) =>
               news.title
                   .toLowerCase()
