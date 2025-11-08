@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:news_app_with_getx/controller/NewsController.dart';
 import 'package:news_app_with_getx/model/new_model.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-import 'dart:io';
 
 class SliverDetails extends StatelessWidget {
   const SliverDetails({super.key, required this.newsModel});

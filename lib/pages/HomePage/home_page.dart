@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:news_app_with_getx/controller/NewsController.dart';
 import 'package:news_app_with_getx/pages/DemoPage/new_tile_demo.dart';
 import 'package:news_app_with_getx/pages/DemoPage/trending_card_page.dart';
-import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
+// import 'package:news_app_with_getx/pages/HomePage/widgets/new_Tile.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/news_category_view.dart';
 import 'package:news_app_with_getx/pages/HomePage/widgets/trending_card_page.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -96,130 +96,112 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Hottest News',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Text(
-                  'See All',
-                  style: Theme.of(context).textTheme.labelSmall,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Obx(
-              () {
-                if (newsController.breakingNewsList.isEmpty) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: const [
-                        TrendingDemoCard(),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        TrendingDemoCard(),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        TrendingDemoCard(),
-                      ],
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(8.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hottest News',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                  );
-                } else {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: newsController.breakingNewsList
-                          .map((e) => TrendingCard(newsModel: e))
-                          .toList(),
-                    ),
-                  );
-                }
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TabBar(
-              isScrollable: true,
-
-              labelColor: Colors.white,
-              indicatorPadding: EdgeInsets.only(right: 5, left: 5),
-              // labelPadding: EdgeInsets.all(5),
-              automaticIndicatorColorAdjustment: true,
-              splashBorderRadius: BorderRadius.circular(15),
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.primary),
-              indicatorSize: TabBarIndicatorSize.tab,
-              dividerColor: Colors.transparent,
-              tabs: newsController.categories
-                  .map((category) => Tab(text: category.capitalizeFirst))
-                  .toList(),
-              unselectedLabelColor: const Color.fromARGB(255, 122, 122, 122),
-              controller: newsController.tabController,
-              onTap: (index) {
-                newsController.changeCategory(newsController.categories[index]);
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Hottest News',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                    Text(
+                      'See All',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    )
+                  ],
                 ),
-                Text(
-                  'See All',
-                  style: Theme.of(context).textTheme.labelSmall,
-                )
-              ],
+                const SizedBox(
+                  height: 12,
+                ),
+                Obx(
+                  () {
+                    if (newsController.breakingNewsList.isEmpty) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: const [
+                            TrendingDemoCard(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TrendingDemoCard(),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            TrendingDemoCard(),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: newsController.breakingNewsList
+                              .map((e) => TrendingCard(newsModel: e))
+                              .toList(),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TabBar(
+                  isScrollable: true,
+                  labelColor: Colors.white,
+                  indicatorPadding: EdgeInsets.only(right: 5, left: 5),
+                  // labelPadding: EdgeInsets.all(5),
+                  automaticIndicatorColorAdjustment: true,
+                  splashBorderRadius: BorderRadius.circular(15),
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Theme.of(context).colorScheme.primary),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  dividerColor: Colors.transparent,
+                  tabs: newsController.categories
+                      .map((category) => Tab(text: category.capitalizeFirst))
+                      .toList(),
+                  unselectedLabelColor:
+                      const Color.fromARGB(255, 122, 122, 122),
+                  controller: newsController.tabController,
+                  onTap: (index) {
+                    newsController
+                        .changeCategory(newsController.categories[index]);
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hottest News',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(
+                      'See All',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ]),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            // TabBarView(
-            //   controller: newsController.tabController,
-            //   children:
-            // newsController.categories
-            //     .map((category) => NewsCategoryView(category: category))
-            //     .toList(),
-            // )
-            Obx(() {
-              if (newsController.newsheadList.isEmpty) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: const [
-                      NewTileDemo(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      NewTileDemo(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      NewTileDemo(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                if (newsController.isLoading.value) {
+          ),
+          SliverFillRemaining(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(() {
+                if (newsController.newsheadList.isEmpty) {
                   return SingleChildScrollView(
                     child: Column(
                       children: const [
@@ -239,23 +221,40 @@ class HomePage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
+                  if (newsController.isLoading.value) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: const [
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          NewTileDemo(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return TabBarView(
                       controller: newsController.tabController,
                       children: newsController.categories
                           .map((e) => NewsCategoryView(
                                 category: e,
                               ))
                           .toList(),
-                    ),
-                  );
+                    );
+                  }
                 }
-              }
-            }),
-          ],
-        ),
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

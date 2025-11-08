@@ -19,8 +19,9 @@ void main() async {
   //   await Hive.box<NewsModel>('bookmark').close();
   // }
   await Hive.openBox<NewsModel>('bookmark');
-  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
+  runApp(MyApp());
 }
+// DevicePreview(enabled: true, builder: (context) => MyApp())
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,8 +29,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       themeMode: ThemeMode.system,

@@ -74,12 +74,8 @@ class NewsServices {
           await dio.download(url, filePath);
           // Trigger a media scan to make the file visible in the gallery
           final result = await File(filePath).create(recursive: true);
-          if (result != null) {
-            print('File saved at: $filePath');
-            return filePath;
-          } else {
-            throw Exception('Failed to save the file');
-          }
+          print('File saved at: $filePath');
+          return filePath;
         } else {
           throw Exception('Failed to get external storage directory');
         }

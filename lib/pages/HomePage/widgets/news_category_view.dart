@@ -14,12 +14,12 @@ class NewsCategoryView extends StatelessWidget {
       if (newsController.newsheadList.isEmpty) {
         return Center(child: CircularProgressIndicator());
       }
-      return SingleChildScrollView(
-        child: Column(
-          children: newsController.newsheadList
-              .map((e) => NewTile(newsModel: e))
-              .toList(),
-        ),
+      return ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: newsController.newsheadList
+            .map((e) => NewTile(newsModel: e))
+            .toList(),
       );
     });
   }
